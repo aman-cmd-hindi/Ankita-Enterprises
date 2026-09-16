@@ -138,10 +138,6 @@
   align-self: stretch;
 }
 
-.about-section {
-  
-}
-
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -179,8 +175,6 @@
   height: 60%;
   background: linear-gradient(to bottom, var(--gold), transparent);
 }
-
-.about-content {}
 
 .about-body {
   font-size: 1rem;
@@ -230,10 +224,6 @@
 .about-highlight strong {
   color: var(--black);
   font-weight: 600;
-}
-
-.services-section {
-  
 }
 
 .services-header {
@@ -328,10 +318,6 @@
 
 @media (max-width: 600px) {
   .services-grid { grid-template-columns: 1fr; }
-}
-
-.portfolio-section {
-  
 }
 
 .portfolio-filters {
@@ -589,8 +575,6 @@
   color: var(--text-muted);
 }
 
-.process-section {}
-
 .process-timeline {
   position: relative;
   display: grid;
@@ -696,16 +680,12 @@
   .process-step h3 { margin-bottom: 0.5rem; }
 }
 
-.contact-section {}
-
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5rem;
   align-items: start;
 }
-
-.contact-info {}
 
 .contact-info-body {
   font-size: 0.95rem;
@@ -838,6 +818,7 @@
   border-radius: 0;
   outline: none;
   -webkit-appearance: none;
+  appearance: none;
 }
 
 .form-field select {
