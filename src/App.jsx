@@ -1,11 +1,14 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, Suspense, lazy } from 'react';
 import Navbar from './components/Navbar';
 import Button from './components/Button';
 import Footer from './components/Footer';
 import SplashScreen from './components/SplashScreen';
-import HeroRoom3D from './components/HeroRoom3D';
 import FloatingCTA from './components/FloatingCTA';
+import BeforeAfterSlider from './components/BeforeAfterSlider';
+import ClientSpotlights from './components/ClientSpotlights';
 import './App.css';
+
+const HeroRoom3D = lazy(() => import('./components/HeroRoom3D'));
 
 function useReveal() {
   useEffect(() => {
@@ -219,7 +222,9 @@ export default function App() {
         <FloatingCTA />
 
         <section id="home" className="hero-section" aria-label="Hero">
-          <HeroRoom3D />
+          <Suspense fallback={<div className="hero3d-loader" />}>
+            <HeroRoom3D />
+          </Suspense>
           <div className="hero-overlay" aria-hidden="true" />
 
           <div className="container hero-content fade-in">
@@ -402,6 +407,8 @@ export default function App() {
           </div>
         </section>
 
+        <BeforeAfterSlider />
+
         <section id="process" className="section section-marble" aria-label="Our Process">
           <div className="container">
             <div className="reveal" style={{ textAlign: 'center', marginBottom: '1rem' }}>
@@ -426,6 +433,8 @@ export default function App() {
             </div>
           </div>
         </section>
+
+        <ClientSpotlights />
 
         <section id="contact" className="section section-dark" aria-label="Contact Ankita Enterprises">
           <div className="container">

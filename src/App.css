@@ -23,6 +23,12 @@
   pointer-events: none;
 }
 
+.hero3d-loader {
+  position: absolute;
+  inset: 0;
+  background: var(--black);
+}
+
 .hero-content {
   position: relative;
   z-index: 2;

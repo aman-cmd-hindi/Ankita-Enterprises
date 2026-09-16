@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useState } from 'react';
 import * as THREE from 'three';
 
 const createMaterial = (color, roughness = 0.7, metalness = 0.05) =>
@@ -295,11 +295,12 @@ function buildLights(scene) {
   scene.add(accent);
   scene.add(accent.target);
 
-  return { lampGlow };
+  return { ambient, keyLight, fill, lampGlow, accent };
 }
 
 const HeroRoom3D = () => {
   const mountRef = useRef(null);
+  const [activePreset, setActivePreset] = useState('lounge');
   const stateRef = useRef({
     renderer: null,
     scene: null,
@@ -315,9 +316,10 @@ const HeroRoom3D = () => {
     autoRotating: true,
     idleTimer: null,
     hintVisible: true,
-    lampGlow: null,
+    lights: null,
     clock: null,
     pivot: null,
+    isNight: false,
   });
 
   const hideHint = useCallback(() => {
@@ -340,8 +342,42 @@ const HeroRoom3D = () => {
     clearTimeout(s.idleTimer);
     s.idleTimer = setTimeout(() => {
       s.autoRotating = true;
-    }, 2000);
+    }, 2500);
   }, []);
+
+  const selectPreset = (preset) => {
+    setActivePreset(preset);
+    resetIdleTimer();
+    hideHint();
+    const s = stateRef.current;
+    if (!s.lights) return;
+
+    if (preset === 'lounge') {
+      s.targetRotX = 0.12;
+      s.targetRotY = 0.0;
+      s.isNight = false;
+      s.lights.keyLight.intensity = 1.8;
+      s.lights.ambient.intensity = 0.4;
+      s.lights.fill.intensity = 0.4;
+      s.lights.accent.intensity = 1.2;
+    } else if (preset === 'detail') {
+      s.targetRotX = 0.22;
+      s.targetRotY = -0.55;
+      s.isNight = false;
+      s.lights.keyLight.intensity = 1.8;
+      s.lights.ambient.intensity = 0.4;
+      s.lights.fill.intensity = 0.4;
+      s.lights.accent.intensity = 1.4;
+    } else if (preset === 'evening') {
+      s.targetRotX = 0.16;
+      s.targetRotY = 0.35;
+      s.isNight = true;
+      s.lights.keyLight.intensity = 0.35;
+      s.lights.ambient.intensity = 0.12;
+      s.lights.fill.intensity = 0.1;
+      s.lights.accent.intensity = 1.8;
+    }
+  };
 
   useEffect(() => {
     const el = mountRef.current;
@@ -376,19 +412,20 @@ const HeroRoom3D = () => {
     s.pivot = pivot;
 
     buildRoom(scene);
-    const { lampGlow } = buildLights(scene);
-    s.lampGlow = lampGlow;
+    const lights = buildLights(scene);
+    s.lights = lights;
 
     const animate = () => {
       s.animId = requestAnimationFrame(animate);
       const elapsed = s.clock.getElapsedTime();
 
-      if (s.lampGlow) {
-        s.lampGlow.intensity = 2.3 + Math.sin(elapsed * 7) * 0.15;
+      if (s.lights && s.lights.lampGlow) {
+        const base = s.isNight ? 4.0 : 2.3;
+        s.lights.lampGlow.intensity = base + Math.sin(elapsed * 7) * 0.18;
       }
 
       if (s.autoRotating) {
-        s.targetRotY += 0.0018;
+        s.targetRotY += 0.0016;
       }
 
       s.rotX += (s.targetRotX - s.rotX) * 0.08;
@@ -485,17 +522,98 @@ const HeroRoom3D = () => {
   return (
     <div ref={mountRef} style={{ position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden' }}>
       <div
+        className="hero3d-controls"
+        style={{
+          position: 'absolute',
+          bottom: '5.5rem',
+          right: '2.5rem',
+          display: 'flex',
+          gap: '0.5rem',
+          zIndex: 4,
+        }}
+      >
+        <button
+          type="button"
+          onClick={() => selectPreset('lounge')}
+          style={{
+            background: activePreset === 'lounge' ? 'var(--gold)' : 'rgba(10, 10, 10, 0.75)',
+            color: activePreset === 'lounge' ? 'var(--black)' : 'var(--text-on-dark)',
+            border: '1px solid ' + (activePreset === 'lounge' ? 'var(--gold)' : 'rgba(201, 161, 90, 0.35)'),
+            padding: '0.4rem 0.85rem',
+            fontFamily: 'var(--font-body)',
+            fontSize: '0.65rem',
+            fontWeight: 600,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            borderRadius: '20px',
+            cursor: 'pointer',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            transition: 'all 0.25s ease',
+          }}
+        >
+          Lounge View
+        </button>
+
+        <button
+          type="button"
+          onClick={() => selectPreset('detail')}
+          style={{
+            background: activePreset === 'detail' ? 'var(--gold)' : 'rgba(10, 10, 10, 0.75)',
+            color: activePreset === 'detail' ? 'var(--black)' : 'var(--text-on-dark)',
+            border: '1px solid ' + (activePreset === 'detail' ? 'var(--gold)' : 'rgba(201, 161, 90, 0.35)'),
+            padding: '0.4rem 0.85rem',
+            fontFamily: 'var(--font-body)',
+            fontSize: '0.65rem',
+            fontWeight: 600,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            borderRadius: '20px',
+            cursor: 'pointer',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            transition: 'all 0.25s ease',
+          }}
+        >
+          Detail Angle
+        </button>
+
+        <button
+          type="button"
+          onClick={() => selectPreset('evening')}
+          style={{
+            background: activePreset === 'evening' ? 'var(--gold)' : 'rgba(10, 10, 10, 0.75)',
+            color: activePreset === 'evening' ? 'var(--black)' : 'var(--text-on-dark)',
+            border: '1px solid ' + (activePreset === 'evening' ? 'var(--gold)' : 'rgba(201, 161, 90, 0.35)'),
+            padding: '0.4rem 0.85rem',
+            fontFamily: 'var(--font-body)',
+            fontSize: '0.65rem',
+            fontWeight: 600,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            borderRadius: '20px',
+            cursor: 'pointer',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            transition: 'all 0.25s ease',
+          }}
+        >
+          Evening Mood
+        </button>
+      </div>
+
+      <div
         className="hero3d-hint"
         style={{
           position: 'absolute',
-          bottom: '6.5rem',
-          right: '3rem',
+          bottom: '3.2rem',
+          right: '2.5rem',
           display: 'flex',
           alignItems: 'center',
           gap: '0.5rem',
           color: 'rgba(255,255,255,0.6)',
           fontFamily: 'var(--font-body)',
-          fontSize: '0.68rem',
+          fontSize: '0.65rem',
           letterSpacing: '0.2em',
           textTransform: 'uppercase',
           zIndex: 3,
@@ -504,11 +622,11 @@ const HeroRoom3D = () => {
           animation: 'fadeUp 1s 2s both',
         }}
       >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
           <path d="M5 9l7-7 7 7M5 15l7 7 7-7" />
         </svg>
-        <span>Drag to explore 3D</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <span>Drag to rotate 3D space</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
           <path d="M5 9l7-7 7 7M5 15l7 7 7-7" />
         </svg>
       </div>
