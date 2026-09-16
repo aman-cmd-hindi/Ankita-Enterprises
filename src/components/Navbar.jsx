@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 
 const NAV_LINKS = [
-  { href: '#about',     label: 'About'     },
-  { href: '#services',  label: 'Services'  },
+  { href: '#about', label: 'About' },
+  { href: '#services', label: 'Services' },
   { href: '#portfolio', label: 'Portfolio' },
-  { href: '#process',   label: 'Process'   },
+  { href: '#process', label: 'Process' },
 ];
 
 const Navbar = () => {
@@ -18,10 +18,11 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Lock body scroll when mobile menu open
   useEffect(() => {
     document.body.style.overflow = isMobileOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [isMobileOpen]);
 
   const close = () => setIsMobileOpen(false);
@@ -35,7 +36,7 @@ const Navbar = () => {
 
         <button
           className="hamburger"
-          onClick={() => setIsMobileOpen(p => !p)}
+          onClick={() => setIsMobileOpen(prev => !prev)}
           aria-label={isMobileOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={isMobileOpen}
         >

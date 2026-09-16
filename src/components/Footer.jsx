@@ -4,8 +4,6 @@ import './Footer.css';
 const Footer = () => (
   <footer className="footer" id="footer">
     <div className="container footer-container">
-
-      {/* Brand */}
       <div className="footer-brand">
         <a href="#home" className="footer-logo">
           <img src="/assets/logo.png" alt="Ankita Enterprises" />
@@ -23,7 +21,6 @@ const Footer = () => (
         </div>
       </div>
 
-      {/* Quick Links */}
       <div className="footer-links">
         <h4>Navigation</h4>
         <ul>
@@ -36,7 +33,6 @@ const Footer = () => (
         </ul>
       </div>
 
-      {/* Contact */}
       <div className="footer-contact">
         <h4>Contact Us</h4>
         <p>
@@ -55,7 +51,6 @@ const Footer = () => (
         </p>
       </div>
 
-      {/* Map */}
       <div className="footer-map">
         <h4>Our Location</h4>
         <iframe
@@ -77,7 +72,6 @@ const Footer = () => (
           Open in Google Maps
         </a>
       </div>
-
     </div>
 
     <div className="footer-bottom">
