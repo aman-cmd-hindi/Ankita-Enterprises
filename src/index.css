@@ -1,0 +1,256 @@
+/* =============================================
+   ANKITA ENTERPRISES — GLOBAL DESIGN SYSTEM
+   Black · Gold · Marble White
+   ============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap');
+
+:root {
+  /* ── Color Tokens ── */
+  --gold:          #C9A15A;
+  --gold-light:    #E5C27A;
+  --gold-dark:     #A07C3A;
+  --gold-muted:    rgba(201, 161, 90, 0.15);
+  --gold-border:   rgba(201, 161, 90, 0.3);
+
+  --black:         #0A0A0A;
+  --black-rich:    #111111;
+  --black-soft:    #1A1A1A;
+  --black-card:    #161616;
+
+  --marble:        #F5F3EE;
+  --marble-2:      #EEEBE4;
+  --marble-dark:   #E0DDD5;
+
+  --white:         #FFFFFF;
+  --text-on-dark:  rgba(255,255,255,0.85);
+  --text-muted:    rgba(255,255,255,0.5);
+  --text-body:     #2C2A26;
+  --text-light:    #6B6660;
+
+  /* ── Typography ── */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'Jost', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* ── Spacing ── */
+  --section-pad:  clamp(4rem, 8vw, 7rem);
+
+  /* ── Radii ── */
+  --r-sm:  4px;
+  --r-md:  8px;
+  --r-lg:  16px;
+  --r-xl:  24px;
+
+  /* ── Shadows ── */
+  --shadow-sm:   0 2px 8px rgba(0,0,0,0.12);
+  --shadow-md:   0 8px 24px rgba(0,0,0,0.2);
+  --shadow-lg:   0 20px 48px rgba(0,0,0,0.32);
+  --shadow-gold: 0 8px 32px rgba(201,161,90,0.25);
+
+  /* ── Transitions ── */
+  --ease:         cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --t-fast:       0.2s var(--ease);
+  --t-base:       0.4s var(--ease);
+  --t-slow:       0.7s var(--ease);
+
+  /* Legacy compat */
+  --color-accent: var(--gold);
+  --color-primary: var(--black);
+  --color-white: var(--white);
+  --color-border: var(--marble-dark);
+  --color-text-light: var(--text-light);
+  --transition: var(--t-base);
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+  --font-heading: var(--font-display);
+}
+
+/* ── Reset ── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--black);
+  color: var(--text-on-dark);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ── Headings ── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  color: inherit;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--t-fast);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── Layout ── */
+.container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 4vw, 3rem);
+}
+
+.section {
+  padding: var(--section-pad) 0;
+}
+
+/* ── Section Title ── */
+.section-eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 1rem;
+  position: relative;
+  color: inherit;
+}
+
+.section-title--left {
+  text-align: left;
+}
+
+.section-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3.5rem;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  height: 1px;
+  width: 60px;
+  background: var(--gold-border);
+}
+
+.section-divider-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+/* ── Marble section background ── */
+.section-marble {
+  background-color: var(--marble);
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(201,161,90,0.04) 0%, transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='600' height='600' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  color: var(--text-body);
+}
+
+.section-marble h1,
+.section-marble h2,
+.section-marble h3,
+.section-marble h4 {
+  color: var(--black);
+}
+
+.section-marble .section-eyebrow { color: var(--gold-dark); }
+
+.section-dark {
+  background-color: var(--black-rich);
+  color: var(--text-on-dark);
+}
+
+/* ── Utilities ── */
+.text-center { text-align: center; }
+.text-gold   { color: var(--gold); }
+.text-muted  { color: var(--text-muted); }
+.italic      { font-style: italic; }
+
+/* ── Scroll Animations ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+}
+
+.reveal.reveal--left {
+  transform: translateX(-36px);
+}
+
+.reveal.reveal--right {
+  transform: translateX(36px);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* stagger children */
+.stagger > *:nth-child(1) { transition-delay: 0s; }
+.stagger > *:nth-child(2) { transition-delay: 0.12s; }
+.stagger > *:nth-child(3) { transition-delay: 0.24s; }
+.stagger > *:nth-child(4) { transition-delay: 0.36s; }
+.stagger > *:nth-child(5) { transition-delay: 0.48s; }
+
+/* legacy compat */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in {
+  animation: fadeUp 1s var(--ease) both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to   { background-position: 200% center; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,161,90,0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(201,161,90,0); }
+}
